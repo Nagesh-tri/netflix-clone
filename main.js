@@ -52,28 +52,28 @@ function fetchBuildSecs(url,any) {
     .catch(err=>console.error(err))
 }
 function buildMoviesSection(list, categ){
-    console.log(list, categ);   //list: array:   & cate
+    // console.log(list, categ);   //list: array:   & cate
 
-    const mcont = document.getElementById('movies-cont');
+    const mcont = document.getElementById('m-cont');
     
     const moviesListHTML = list.map(item => {
         //every item look like: console it
         return `
-        <div class="movie-item">
-            <img class="movie-item-img" src="${imgPath}${item.backdrop_path}" alt="${item.title}" />
+        <div class="m-item">
+            <img class="m-i-img" src="${imgPath}${item.backdrop_path}" alt="${item.title}" />
             <div class="iframe-wrap" id="yt${item.id}"></div>
         </div>`;
     }).join('');
 
     const moviesSectionHTML = `
-        <h2 class="movie-section-heading">${categ.name} <span class="explore-nudge">Explore All</span></span></h2>
-        <div class="movies-row">
+        <h2 class="m-sec-heading">${categ.name} <span class="exp-nudge">Explore All</span></span></h2>
+        <div class="m-row">
             ${moviesListHTML}
         </div>
     `
 
     const div = document.createElement('div');
-    div.className = "movies-section"
+    div.className = "m-secs"
     div.innerHTML = moviesSectionHTML;
 
     // append html into movies container
