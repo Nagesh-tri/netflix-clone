@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+  }
+
+  .container {
+    position: relative;
+    max-width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(https://assets.nflxext.com/ffe/siteui/vlv3/d7af077c-af5a-4055-8f9a-740a43588583/95bae10c-9773-4447-af4e-612a244231bd/IN-en-20230717-popsignuptwoweeks-perspective_alpha_website_large.jpg);
+    /* Replace with your own background image */
+    background-size: cover;
+    filter: brightness(0.6);
+    /* You can adjust the opacity with this filter */
+  }
+
+  .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 8px;
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    font-size: 28px;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    outline: none;
+  }
+
+  input::placeholder {
+    color: #ffffff;
+  }
+
+  input:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background-color: #e50914;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #b80c0e;
+  }
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="background-image"></div>
+    <div class="login-form">
+      <h1>Sign In</h1>
+      <form action="#">
+        <input type="email" placeholder="Email" id="email" required>
+        <input type="password" placeholder="Password" id="password" required>
+        <button type="submit">Sign In</button>
+      </form>
+      <p>Don't have an account? <a href="./register.html">Sign Up</a></p>
+      <a href="#">Forgot password?</a>
+    </div>
+  </div>
+</body>
+<script>
+  document.querySelector("form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    userDetails = {
+      "email": document.getElementById("email").value,
+      "password": document.getElementById("password").value
+    }
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(userDetails);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8088/auth/v1/auth/authenticate", requestOptions)
+      .then(response => {
+        if(response.ok){
+          return response.json()
+        }else{
+          alert("Wrong Credentials")
+        }
+        
+      })
+      .then(result => {
+        localStorage.setItem("email",userDetails.email)
+        if(result.role === "ADMIN"){
+          alert("Welcome Admin")
+          window.location.href = "./admin.html"
+        }else if (result.subscription === "NONE"){
+          window.location.href = "./subscription.html"
+        }else{ 
+          alert("Welcome "+result.userName)
+          window.location.href = "./home.html"
+        }
+        
+      })
+      .catch(error => console.log('error', error));
+  })
+</script>
+
+</html>

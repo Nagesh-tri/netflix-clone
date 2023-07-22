@@ -84,6 +84,9 @@ img{
     right: 0.75rem;
     top: 0rem;
 }
+#language{
+    color: black;
+}
 .box{
     /* background-color: blue; */
     fill: currentColor;
@@ -186,6 +189,7 @@ img{
 /* Background Effect */
 .ms1-sub1{
    height: 100%;
+   width: 100%;
    left: 0;
    top: 0;
    position: absolute;
@@ -326,7 +330,7 @@ img{
     width: 100%;
     color: rgb(255, 255, 255);
 }
-.em-f2>input{
+/* .em-f2>input{
     transition: color 250ms cubic-bezier(0.5, 0, 0.1, 1) 0s;
     width: 100%;
     color: transparent;
@@ -334,7 +338,31 @@ img{
     padding: 1.5rem 1rem 0.5rem;
     min-height: 16px;
     min-width: 16px;
-}
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    outline: none;
+} */
+
+.em-f2>input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    outline: none;
+  }
+
+  .em-f2>input::placeholder {
+    color: #ffffff;
+  }
+
+  .em-f2>input:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 .em-form input~ .frm-in{
 
     border-width: 1px;
@@ -385,10 +413,11 @@ img{
     width: auto;
     font-size: 1.5rem;
     font-weight: 500;
-    min-height: 3.5rem;
+    min-height: 0.5rem;
     padding: 0.75rem 1.5rem;
     background: rgb(229, 9, 20);
     color: rgb(255, 255, 255);
+    margin-top: -5px;
 }
 /* divider */
 .g-div{

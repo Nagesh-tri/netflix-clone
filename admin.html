@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Data Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #userTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        #logoutButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: rgb(255, 35, 94);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #logoutButton:hover {
+            background-color: #bb101c;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>User Data Table</h1>
+    <button id="logoutButton">Logout</button>
+
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Subscription ID</th>
+                <th>Subscription Type</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody id="userData">
+            <!-- Table rows will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // ... Sample dynamic data and populateTable function (same as previous example) ...
+        
+        fetchData()
+        function fetchData() {
+            
+
+            fetch("http://localhost:8088/auth/v1/user-controller/allUsers")
+                .then(response => response.json())
+                .then(result => {
+                    populateTable(result)
+                    console.log(result)
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        // Function to dynamically populate the table with data
+        function populateTable(data) {
+            const tableBody = document.getElementById('userData');
+            let tableRows = '';
+
+            data.forEach(user => {
+                tableRows += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.firstName}</td>
+                        <td>${user.lastName}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
+                        <td>${user.subscription.id}</td>
+                        <td>${user.subscription.subscription}</td>
+                        <td>${user.subscription.createdAt}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = tableRows;
+        }
+
+        // Call the function to populate the table with data
+        
+        // Function to handle logout
+        function handleLogout() {
+            // Implement your logout logic here, such as clearing session data or JWT token
+            // For this example, let's just redirect to a login page
+            window.location.href = './login.html';
+        }
+
+        // Event listener for the logout button click
+        const logoutButton = document.getElementById('logoutButton');
+        logoutButton.addEventListener('click', handleLogout);
+    </script>
+</body>
+
+</html>
